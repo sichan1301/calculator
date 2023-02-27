@@ -1,25 +1,23 @@
-import logo from './logo.svg';
+import styled from 'styled-components';
+
 import './App.css';
+import Result from './components/Result';
+import Buttons from './components/Buttons';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppSection>
+      <Result />
+      <Buttons />
+    </AppSection>
   );
 }
 
 export default App;
+
+const AppSection = styled.section`
+  margin: 250px auto;
+  width:300px;
+  border:0.5px solid rgb(92, 92, 92);
+  border-radius: 20px;
+`
