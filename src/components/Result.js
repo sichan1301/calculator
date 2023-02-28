@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const Result = () =>{
+ const currentNumber = useSelector(state => state).currentNumber
+
   return (
-    <State>0</State>
+    <State>{currentNumber}</State>
   )
 }   
   
