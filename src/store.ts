@@ -35,10 +35,11 @@ const calculator = createSlice({
 		},
 		NEGATIVE:(state:IState) => {
 			if(state.equal === true){
-				state.resultNumber = state.resultNumber*(-1);
+				state.resultNumber = -state.resultNumber;
+				state.holdNumber = -state.holdNumber;
 			}else{
 				if(state.currentNumber === ""){
-					state.holdNumber = state.holdNumber * (-1);
+					state.holdNumber = -state.holdNumber;
 				}else{
 					state.currentNumber = Number(state.currentNumber)*(-1);
 				}
@@ -49,12 +50,12 @@ const calculator = createSlice({
 			state.currentNumber = Number(state.currentNumber) / 100
 		},
 		OPERATORS:(state:IState,action) =>{
-			state.equal = false
+
 			if(state.holdNumber == 0){
 				state.holdNumber = Number(state.currentNumber)
 			}else{
-				if(state.currentNumber !== "" && state.operator === action.payload){
-					switch(action.payload){
+				if(state.equal ===false && state.currentNumber !== ""){
+					switch(state.operator){
 						case "+":
 							state.resultNumber = state.holdNumber + Number(state.currentNumber)
 							break;
@@ -73,13 +74,14 @@ const calculator = createSlice({
 					state.holdNumber = state.resultNumber 
 				}
 			}
+			state.equal = false
 			state.operator = action.payload
 			state.currentNumber = ""
 		},
 
 		EQUAL:(state:IState) => {
 			state.equal = true
-			if(Number(state.currentNumber) !== 0){
+			if(state.currentNumber !== ""){
 				switch(state.operator){
 					case "+":
 						state.resultNumber = state.holdNumber + Number(state.currentNumber)
@@ -96,6 +98,7 @@ const calculator = createSlice({
 					default:
 						break;
 				}
+				
 			}else{
 				switch(state.operator){
 					case "x":
