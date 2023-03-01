@@ -34,7 +34,16 @@ const calculator = createSlice({
 			state.resultNumber = 0;
 		},
 		NEGATIVE:(state:IState) => {
-			state.currentNumber = Number(state.currentNumber)*(-1);
+			if(state.equal === true){
+				state.resultNumber = state.resultNumber*(-1);
+			}else{
+				if(state.currentNumber === ""){
+					state.holdNumber = state.holdNumber * (-1);
+				}else{
+					state.currentNumber = Number(state.currentNumber)*(-1);
+				}
+			}
+			
 		},
 		PERCENTAGE:(state:IState) => {
 			state.currentNumber = Number(state.currentNumber) / 100
@@ -45,64 +54,62 @@ const calculator = createSlice({
 				state.holdNumber = Number(state.currentNumber)
 			}else{
 				if(state.currentNumber !== "" && state.operator === action.payload){
-						switch(action.payload){
-							case "+":
-								state.resultNumber = state.holdNumber + Number(state.currentNumber)
-								break;
-							case "-":
-								state.resultNumber = state.holdNumber - Number(state.currentNumber)
-								break;
-							case "x":
-								state.resultNumber = state.holdNumber * Number(state.currentNumber)
-								break;
-							case "/":
-								state.resultNumber = state.holdNumber / Number(state.currentNumber)
-								break;
-							default:
-								break;
+					switch(action.payload){
+						case "+":
+							state.resultNumber = state.holdNumber + Number(state.currentNumber)
+							break;
+						case "-":
+							state.resultNumber = state.holdNumber - Number(state.currentNumber)
+							break;
+						case "x":
+							state.resultNumber = state.holdNumber * Number(state.currentNumber)
+							break;
+						case "/":
+							state.resultNumber = state.holdNumber / Number(state.currentNumber)
+							break;
+						default:
+							break;
 						} 
-						state.holdNumber = state.resultNumber 
+					state.holdNumber = state.resultNumber 
 				}
 			}
 			state.operator = action.payload
 			state.currentNumber = ""
 		},
 
-
-		
 		EQUAL:(state:IState) => {
 			state.equal = true
-			switch(state.operator){
-				case "+":
-					state.resultNumber = Number(state.holdNumber) + Number(state.currentNumber)
-					break;
-
-				case "-":
-					state.resultNumber = Number(state.holdNumber) - Number(state.currentNumber)
-					break;
-
-				case "x":
-					if(Number(state.currentNumber) !== 0){
+			if(Number(state.currentNumber) !== 0){
+				switch(state.operator){
+					case "+":
+						state.resultNumber = state.holdNumber + Number(state.currentNumber)
+						break;
+					case "-":
+						state.resultNumber = state.holdNumber - Number(state.currentNumber)
+						break;	
+					case "x":
 						state.resultNumber = state.holdNumber * Number(state.currentNumber)
-					}else{
-						state.resultNumber = state.holdNumber * state.holdNumber
-						state.currentNumber = state.holdNumber
-					}
-					break;
-
-				case "/":
-					if(Number(state.currentNumber) !== 0){
+						break;
+					case "/":
 						state.resultNumber = state.holdNumber / Number(state.currentNumber)
-					}else{
-						state.resultNumber = state.holdNumber / state.holdNumber
-						state.currentNumber = state.holdNumber
-					}
-					break;
-
-				default:
-					break;
+						break;
+					default:
+						break;
 				}
-				state.holdNumber = state.resultNumber
+			}else{
+				switch(state.operator){
+					case "x":
+						state.resultNumber = state.holdNumber * state.holdNumber
+						break;
+					case "/":
+						state.resultNumber = state.holdNumber / state.holdNumber
+						break;
+					default:
+						break;
+				}
+				state.currentNumber = state.holdNumber
+			}
+			state.holdNumber = state.resultNumber
 		}
 }})
 
