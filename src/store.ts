@@ -41,53 +41,34 @@ const calculator = createSlice({
 		},
 		OPERATORS:(state:IState,action) =>{
 			state.equal = false
-			switch(action.payload){
-				case "+":
-					if(state.holdNumber == 0){
-						state.holdNumber = Number(state.currentNumber)
-					}else{
-						if(state.currentNumber !== "" && state.operator ==="+"){ 
-							state.resultNumber = state.holdNumber + Number(state.currentNumber)
-							state.holdNumber = state.resultNumber 
-						}
-					}
-					break;
-				case "-":
-					if(state.holdNumber == 0){
-						state.holdNumber = Number(state.currentNumber)
-					}else{
-						if(state.currentNumber !== "" && state.operator ==="-"){ 
-							state.resultNumber = state.holdNumber - Number(state.currentNumber)
-							state.holdNumber = state.resultNumber 
-						}
-					}
-					break;
-
-				case "x":
-					if(state.holdNumber == 0){
-						state.holdNumber = Number(state.currentNumber)
-					}else{
-						if(state.currentNumber !== "" && state.operator ==="x"){ 
-							state.resultNumber = state.holdNumber * Number(state.currentNumber)
-							state.holdNumber = state.resultNumber 
-						}
-					}
-					break;
-
-				case "/":
-					if(state.holdNumber == 0){
-						state.holdNumber = Number(state.currentNumber)
-					}else{
-						if(Number(state.currentNumber) !== 0 && state.operator ==="/"){
-							state.resultNumber = state.holdNumber / Number(state.currentNumber)
-							state.holdNumber = state.resultNumber 
-						}
-					}
-					break;
-				}		
-				state.operator = action.payload
-				state.currentNumber = ""
+			if(state.holdNumber == 0){
+				state.holdNumber = Number(state.currentNumber)
+			}else{
+				if(state.currentNumber !== "" && state.operator === action.payload){
+						switch(action.payload){
+							case "+":
+								state.resultNumber = state.holdNumber + Number(state.currentNumber)
+								break;
+							case "-":
+								state.resultNumber = state.holdNumber - Number(state.currentNumber)
+								break;
+							case "x":
+								state.resultNumber = state.holdNumber * Number(state.currentNumber)
+								break;
+							case "/":
+								state.resultNumber = state.holdNumber / Number(state.currentNumber)
+								break;
+							default:
+								break;
+						} 
+						state.holdNumber = state.resultNumber 
+				}
+			}
+			state.operator = action.payload
+			state.currentNumber = ""
 		},
+
+
 		
 		EQUAL:(state:IState) => {
 			state.equal = true
@@ -134,4 +115,13 @@ export type RootState = ReturnType<typeof store.getState>;
 export const {NUMBER,CLEAR,NEGATIVE,PERCENTAGE,OPERATORS,EQUAL} = calculator.actions
 
 export default calculator
+
+
+
+
+
+
+
+
+
 
