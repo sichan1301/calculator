@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-
-import './App.css';
 import Result from './components/Result';
 import Buttons from './components/Buttons';
 

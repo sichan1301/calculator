@@ -1,18 +1,19 @@
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled, {css} from 'styled-components';
 import { CLEAR, NUMBER, NEGATIVE,PERCENTAGE,EQUAL,OPERATORS } from '../store';
 
 const Buttons = () =>{
   const dispatch = useDispatch()
-
-  const handleNumber = (e) => {
-    dispatch(NUMBER(e.target.name))
+ 
+  const handleNumber = (e:React.MouseEvent) => {
+    dispatch(NUMBER((e.target as HTMLButtonElement).name))
   }
 
-  const handleOperator = (e) =>{
-    dispatch(OPERATORS(e.target.name))
+  const handleOperator = (e:React.MouseEvent) =>{
+    dispatch(OPERATORS((e.target as HTMLButtonElement).name))
   }
-
+    
     return (
       <ButtonSection>
         <Button option="etc"      name="AC"  onClick = {()=>dispatch(CLEAR())}>AC</Button>
@@ -44,40 +45,40 @@ const Buttons = () =>{
   
 export default Buttons
 
+
+interface IInerButton {
+  option:string
+}
+
 const ButtonSection = styled.section`
   display: grid;
   grid-template-columns: repeat(4,1fr);
 `
 
-const Button = styled.button`
+const Button = styled.button<IInerButton>`
   color:#fff;
   height:60px;
   font-size: 24px;
   font-weight: 600;
   border:0.5px solid rgb(120,120,120);
-  
+  :active{
+    background-color: rgb(170,170,170);
+  }
 
-  ${(props) => {if(props.option === "number"){
-      return (
-        css`
-          background:rgb(175, 175, 175);
-          color:#fff;
+  background-color: ${props => {switch(props.option){
+    case "number":
+      return css`
+          rgb(175, 175, 175);
         `
-      )
-    }else if(props.option === "operator"){
-      return (
-        css`
-          background:orange;
+    case "operator":
+      return css`
+          orange;
         `
-      )
-    }else if(props.option === "etc"){
-        return (
-          css`
-            background:grey;
+    case "etc":
+      return css`
+            grey;
           `
-        )
-      }
-    }
+  }}
   }
 
   ${(props) => {if(props.name ==="0"){
