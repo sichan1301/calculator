@@ -1,11 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, {css} from 'styled-components';
-import { CLEAR, NUMBER, NEGATIVE,PERCENTAGE,EQUAL,OPERATORS } from '../store';
+
+import { RootState,CLEAR, NUMBER, NEGATIVE,PERCENTAGE,EQUAL,OPERATORS } from '../store';
 
 const Buttons = () =>{
   const dispatch = useDispatch()
- 
+  const canClear = useSelector((state:RootState)=> state.canClear)
+  
   const handleNumber = (e:React.MouseEvent) => {
     dispatch(NUMBER((e.target as HTMLButtonElement).name))
   }
@@ -16,11 +18,15 @@ const Buttons = () =>{
     
     return (
       <ButtonSection>
-        <Button option="etc"      name="AC"  onClick = {()=>dispatch(CLEAR())}>AC</Button>
+        {
+          canClear 
+          ?<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>C</Button>
+          :<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>AC</Button>
+        }
         <Button option="etc"      name="+/=" onClick ={()=>{dispatch(NEGATIVE())}}>+/=</Button>
         <Button option="etc"      name="%"   onClick = {() =>{dispatch(PERCENTAGE())}}>%</Button>
         <Button option="operator" name="/"   onClick = {handleOperator}>/</Button>
-        <Button option="number"   name="7"   onClick = {handleNumber} data-link="dd">7</Button>
+        <Button option="number"   name="7"   onClick = {handleNumber}>7</Button>
         <Button option="number"   name="8"   onClick = {handleNumber}>8</Button>
         <Button option="number"   name="9"   onClick = {handleNumber}>9</Button>
         <Button option="operator" name="x"   onClick = {handleOperator}>x</Button>
@@ -46,7 +52,7 @@ const Buttons = () =>{
 export default Buttons
 
 
-interface IInerButton {
+interface IInnerButton {
   option:string
 }
 
@@ -55,7 +61,7 @@ const ButtonSection = styled.section`
   grid-template-columns: repeat(4,1fr);
 `
 
-const Button = styled.button<IInerButton>`
+const Button = styled.button<IInnerButton>`
   color:#fff;
   height:60px;
   font-size: 24px;
