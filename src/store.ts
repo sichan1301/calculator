@@ -149,7 +149,7 @@ const calculator = createSlice({
 		HISTORY:(state,action) =>{
 				switch(action.payload){
 					case "up":
-						if(state.index===1){
+						if(state.index<=1){
 							return
 						}
 						state.index = state.index-1

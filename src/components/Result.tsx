@@ -7,6 +7,8 @@ const Result = () =>{
  const {currentNumber,resultNumber,holdNumber,operator,equal,canClear,history,index} = useSelector((state:RootState)=> state)
  const dispatch = useDispatch()
 
+ const displayNumber = equal ? history[history.length-index] : (currentNumber === "" ? holdNumber : currentNumber)
+
  useEffect(()=>{
   console.log(`canClear : ${canClear}`);
   console.log(`equal : ${equal}`);
@@ -27,18 +29,20 @@ const Result = () =>{
 
  return (
   <State>
-    {
+    {/* {
       equal ? <Number>{history[history.length-index]}</Number>: (currentNumber === "" ? <Number>{holdNumber}</Number>:<Number>{currentNumber}</Number>  )
-    }
+    } */}
 
     {
       index>history.length-1 ? null: <Arrow name="down" onClick = {handleArrow}>↓</Arrow>
     }
 
     {
-      index === 1 ? null: <Arrow name="up" onClick = {handleArrow}>↑</Arrow>
+      index <= 1 && <Arrow name="up" onClick = {handleArrow}>↑</Arrow>
     }
 
+  <Number>{displayNumber}</Number>
+  {/* <Arrow ></Arrow> */}
   </State>
  )
 }   
@@ -49,7 +53,7 @@ interface IInnerArrow {
   name:string
 }
 
-const State = styled.p`
+const State = styled.div`
   position:relative;
   color:#fff;
   background-color:rgb(90,90,90);

@@ -19,9 +19,12 @@ const Buttons = () =>{
     return (
       <ButtonSection>
         {
-          canClear 
-          ?<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>C</Button>
-          :<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>AC</Button>
+          // canClear 
+          // ?<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>C</Button>
+          // :<Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>AC</Button>
+
+          <Button option="etc"   name="AC"  onClick = {()=>dispatch(CLEAR())}>{canClear ? 'C': 'AC'}</Button>
+
         }
         <Button option="etc"      name="+/=" onClick ={()=>{dispatch(NEGATIVE())}}>+/=</Button>
         <Button option="etc"      name="%"   onClick = {() =>{dispatch(PERCENTAGE())}}>%</Button>
